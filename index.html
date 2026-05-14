@@ -95,10 +95,12 @@ nav.scrolled {
 
 /* ══ HERO ══ */
 .hero {
-  min-height:100vh;
+  height:56vw;
+  max-height:680px;
+  min-height:320px;
   display:flex; flex-direction:column;
   justify-content:flex-end;
-  padding:0 60px 88px;
+  padding:0 60px 48px;
   position:relative; overflow:hidden;
 }
 
@@ -106,12 +108,40 @@ nav.scrolled {
   position:absolute; inset:0; z-index:0;
   background-image:url('05232014122323.jpg');
   background-size:cover;
-  background-position:center 60%;
+  background-position:center 72%;
   filter:brightness(.28) saturate(.6);
   transition:filter .6s;
 }
 
 .hero:hover .hero-bg { filter:brightness(.32) saturate(.65); }
+
+/* cinematic letterbox bars */
+.hero::before, .hero::after {
+  content:'';
+  position:absolute; left:0; right:0; z-index:2;
+  height:10%;
+  background:var(--bg);
+  pointer-events:none;
+}
+
+.hero::before { top:0; }
+.hero::after  { bottom:0; }
+
+/* ══ DISCIPLINE BAR ══ */
+.discipline-bar {
+  background:rgba(0,0,0,.98);
+  border-top:1px solid var(--border);
+  border-bottom:1px solid var(--border);
+  padding:14px 60px;
+  display:flex; align-items:center;
+}
+
+.discipline-bar span {
+  font-family:'Raleway', sans-serif;
+  font-size:8px; font-weight:300;
+  letter-spacing:.38em; text-transform:uppercase;
+  color:var(--silver-dim);
+}
 
 .hero-vline {
   position:absolute; top:0; bottom:0; left:60px;
@@ -717,12 +747,15 @@ footer {
   <div class="hero-bg"></div>
   <div class="hero-vline"></div>
   <div class="hero-content">
-    <p class="hero-overline">Maine · Illustrative Fine Art · Metalwork · Objects · Photography</p>
     <h1 class="hero-name">Ben<br><span class="silver">Taylor</span></h1>
-    <p class="hero-lux" style="padding-left:.08em">Lux Post Tenebras</p>
   </div>
   <div class="hero-scroll"><div class="scroll-bar"></div>Scroll</div>
 </section>
+
+<!-- DISCIPLINE BAR -->
+<div class="discipline-bar">
+  <span>Maine &nbsp;·&nbsp; Illustrative Fine Art &nbsp;·&nbsp; Metalwork &nbsp;·&nbsp; Objects &nbsp;·&nbsp; Photography</span>
+</div>
 
 <!-- ══ 01 WORK ══ -->
 <section class="sec" id="work">
