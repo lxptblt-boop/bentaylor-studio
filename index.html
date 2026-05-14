@@ -312,19 +312,34 @@ nav.scrolled {
 /* ══ WORK GALLERY ══ */
 .gallery {
   display:grid;
-  grid-template-columns:1.4fr 1fr 1fr;
-  grid-template-rows:auto;
+  grid-template-columns:1fr 1.6fr 1fr 1.4fr;
+  grid-auto-rows:120px;
   gap:3px;
 }
 
-.g1 { grid-column:1; grid-row:1/3; aspect-ratio:3/4; }
-.g2 { grid-column:2; grid-row:1;   aspect-ratio:4/3; }
-.g3 { grid-column:3; grid-row:1;   aspect-ratio:4/3; }
-.g4 { grid-column:2; grid-row:2;   aspect-ratio:4/3; }
-.g5 { grid-column:3; grid-row:2;   aspect-ratio:4/3; }
-.g6 { grid-column:1; grid-row:3;   aspect-ratio:4/3; }
-.g7 { grid-column:2; grid-row:3;   aspect-ratio:4/3; }
-.g8 { grid-column:3; grid-row:3;   aspect-ratio:4/3; }
+/* Eye panel — landscape, anchors top left, wide */
+.g1 { grid-column:1/3; grid-row:1/3; }
+
+/* Jackalope — portrait, tall right side */
+.g2 { grid-column:3/4; grid-row:1/4; }
+
+/* Foo dog — portrait, far right tall */
+.g3 { grid-column:4/5; grid-row:1/4; }
+
+/* Hannya — portrait, bottom left tall */
+.g4 { grid-column:1/2; grid-row:3/7; }
+
+/* Striper — portrait, middle tall offset */
+.g5 { grid-column:2/3; grid-row:3/7; }
+
+/* Octopus — portrait, continues right */
+.g6 { grid-column:3/4; grid-row:4/7; }
+
+/* Decanter — landscape, bottom right wide */
+.g7 { grid-column:4/5; grid-row:4/6; }
+
+/* Placeholder — bottom right corner */
+.g8 { grid-column:4/5; grid-row:6/7; }
 
 /* ══ LIGHTBOX ══ */
 .lightbox {
@@ -455,15 +470,27 @@ nav.scrolled {
 
 .comm-grid {
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:1fr 1.4fr 1fr;
+  grid-auto-rows:100px;
   gap:2px;
 }
 
 .comm-card {
   position:relative; overflow:hidden;
   background:var(--surface2);
-  aspect-ratio:2/3;
 }
+
+/* Star Wars — portrait, tall left */
+.comm-card:nth-child(1) { grid-column:1; grid-row:1/5; }
+
+/* Pennywise — square, wide center */
+.comm-card:nth-child(2) { grid-column:2; grid-row:1/3; }
+
+/* Skull — portrait, tall right */
+.comm-card:nth-child(3) { grid-column:3; grid-row:1/5; }
+
+/* Placeholder under Pennywise */
+.comm-card:nth-child(2) ~ .comm-cta { margin-top:0; }
 
 .comm-card img {
   width:100%; height:100%;
@@ -703,13 +730,16 @@ footer {
 
   .gallery {
     grid-template-columns:1fr 1fr;
-    grid-template-rows:auto;
+    grid-auto-rows:160px;
   }
-  .g1,.g2,.g3,.g4,.g5,.g6,.g7,.g8 { grid-column:auto; grid-row:auto; aspect-ratio:4/3; }
+  .g1,.g2,.g3,.g4,.g5,.g6,.g7,.g8 { grid-column:auto; grid-row:auto; }
 
   .metal-grid { grid-template-columns:1fr 1fr; }
   .photo-grid { grid-template-columns:1fr 1fr; }
-  .comm-grid { grid-template-columns:1fr 1fr; }
+  .comm-grid { grid-template-columns:1fr 1fr; grid-auto-rows:160px; }
+  .comm-card:nth-child(1),
+  .comm-card:nth-child(2),
+  .comm-card:nth-child(3) { grid-column:auto; grid-row:auto; }
   .about-grid { grid-template-columns:1fr; gap:48px; }
   .contact-grid { grid-template-columns:1fr; gap:48px; }
   footer { flex-direction:column; gap:12px; text-align:center; }
@@ -910,7 +940,7 @@ footer {
   </div>
 
   <p class="photo-intro r" style="transition-delay:.05s">
-    Seen in passing. Kept anyway.
+    Observed images. No particular hierarchy — just what was worth stopping for.
   </p>
 
   <div class="photo-grid r" style="transition-delay:.1s">
@@ -1142,17 +1172,18 @@ footer {
     </div>
 
     <div class="contact-right r" style="transition-delay:.12s">
+      <form id="contact-form" action="https://formspree.io/f/xlgzyrvj" method="POST">
       <div class="cf">
         <label>Name</label>
-        <input type="text" placeholder="Your name">
+        <input type="text" name="name" placeholder="Your name" required>
       </div>
       <div class="cf">
         <label>Email</label>
-        <input type="email" placeholder="your@email.com">
+        <input type="email" name="email" placeholder="your@email.com" required>
       </div>
       <div class="cf">
         <label>Inquiry</label>
-        <select>
+        <select name="inquiry">
           <option value="">Select one</option>
           <option>Available Work</option>
           <option>Commission</option>
@@ -1162,9 +1193,11 @@ footer {
       </div>
       <div class="cf">
         <label>Message</label>
-        <textarea placeholder="Tell me about your inquiry…"></textarea>
+        <textarea name="message" placeholder="Tell me about your inquiry…" required></textarea>
       </div>
-      <button class="c-btn"><span>Send Message</span></button>
+      <button type="submit" class="c-btn"><span>Send Message</span></button>
+      <p id="form-success" style="display:none; margin-top:16px; font-family:'Cormorant',serif; font-style:italic; font-size:15px; color:var(--silver-dim);">Message sent — thank you.</p>
+      </form>
     </div>
   </div>
 </section>
@@ -1189,6 +1222,32 @@ footer {
 </footer>
 
 <script>
+// Contact form — Formspree AJAX
+const form = document.getElementById('contact-form');
+if(form) {
+  form.addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = form.querySelector('.c-btn span');
+    btn.textContent = 'Sending…';
+    try {
+      const res = await fetch(form.action, {
+        method:'POST',
+        body: new FormData(form),
+        headers:{ 'Accept':'application/json' }
+      });
+      if(res.ok) {
+        form.reset();
+        btn.textContent = 'Send Message';
+        document.getElementById('form-success').style.display = 'block';
+      } else {
+        btn.textContent = 'Try Again';
+      }
+    } catch(err) {
+      btn.textContent = 'Try Again';
+    }
+  });
+}
+
 // Nav scroll
 const nav = document.getElementById('nav');
 window.addEventListener('scroll', () => {
