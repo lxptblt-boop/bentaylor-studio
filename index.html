@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ben Taylor — Lux Post Tenebras</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Cinzel:wght@300;400;500&family=Raleway:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:          #080808;
+  --surface:     #101010;
+  --surface2:    #181818;
+  --border:      #1c1c1c;
+  --border2:     #2e2e2e;
+  --silver:      #a4adb8;
+  --silver-dim:  #5a6370;
+  --silver-pale: #d0d8e0;
+  --gold:        #b09060;
+  --gold-dim:    #6a5838;
+  --text:        #ece6dc;
+  --text-mid:    #948c80;
+  --text-dim:    #504840;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; }
+
+body {
+  background:var(--bg);
+  color:var(--text);
+  font-family:'Cormorant', serif;
+  font-size:17px;
+  line-height:1.75;
+  overflow-x:hidden;
+}
+
+/* grain overlay */
+body::after {
+  content:''; position:fixed; inset:0;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  opacity:.022; pointer-events:none; z-index:999;
+}
+
+*, a { cursor:crosshair; }
+
+/* ══ NAV ══ */
+nav {
+  position:fixed; top:0; left:0; right:0; z-index:200;
+  padding:26px 60px;
+  display:flex; align-items:center; justify-content:space-between;
+  transition:background .4s, padding .3s, border-color .4s;
+  border-bottom:1px solid transparent;
+}
+
+nav.scrolled {
+  background:rgba(8,8,8,.96);
+  padding:16px 60px;
+  border-bottom-color:var(--border);
+  backdrop-filter:blur(12px);
+}
+
+.nav-logo { text-decoration:none; display:flex; flex-direction:column; gap:1px; }
+
+.nav-name {
+  font-family:'Cinzel', serif;
+  font-size:13px; font-weight:400;
+  letter-spacing:.28em; text-transform:uppercase;
+  color:var(--text);
+}
+
+.nav-sub {
+  font-family:'Cormorant', serif;
+  font-style:italic; font-size:10px;
+  letter-spacing:.16em; color:var(--silver-dim);
+}
+
+.nav-links { display:flex; gap:40px; list-style:none; }
+
+.nav-links a {
+  font-family:'Raleway', sans-serif;
+  font-size:8.5px; font-weight:300;
+  letter-spacing:.28em; text-transform:uppercase;
+  color:var(--text-dim); text-decoration:none;
+  transition:color .2s; position:relative;
+}
+
+.nav-links a::after {
+  content:''; position:absolute;
+  left:0; bottom:-2px; width:0; height:1px;
+  background:var(--silver); transition:width .3s ease;
+}
+
+.nav-links a:hover { color:var(--silver-pale); }
+.nav-links a:hover::after { width:100%; }
+
+/* ══ HERO ══ */
+.hero {
+  min-height:100vh;
+  display:flex; flex-direction:column;
+  justify-content:flex-end;
+  padding:0 60px 88px;
+  position:relative; overflow:hidden;
+}
+
+.hero-bg {
+  position:absolute; inset:0; z-index:0;
+  background-image:url('05232014122323.jpg');
+  background-size:cover;
+  background-position:center 30%;
+  filter:brightness(.28) saturate(.6);
+  transition:filter .6s;
+}
+
+.hero:hover .hero-bg { filter:brightness(.32) saturate(.65); }
+
+.hero-vline {
+  position:absolute; top:0; bottom:0; left:60px;
+  width:1px;
+  background:linear-gradient(to bottom, transparent 8%, var(--border2) 28%, var(--border2) 72%, transparent 92%);
+  opacity:.35;
+}
+
+.hero-content { position:relative; z-index:1; max-width:900px; }
+
+.hero-overline {
+  font-family:'Raleway', sans-serif;
+  font-size:8px; font-weight:300;
+  letter-spacing:.38em; text-transform:uppercase;
+  color:var(--silver-dim); margin-bottom:26px;
+  animation:up .9s ease .1s both;
+}
+
+.hero-name {
+  font-family:'Cinzel', serif;
+  font-size:clamp(50px,7.8vw,108px);
+  font-weight:300; line-height:.92;
+  letter-spacing:.04em; text-transform:uppercase;
+  animation:up .9s ease .22s both;
+}
+
+.hero-name .silver { color:var(--silver); }
+
+.hero-tagline {
+  margin-top:30px;
+  font-family:'Cormorant', serif;
+  font-style:italic;
+  font-size:clamp(15px,1.7vw,21px);
+  color:var(--text-mid); letter-spacing:.05em;
+  animation:up .9s ease .4s both;
+}
+
+.hero-lux {
+  margin-top:18px;
+  font-family:'Cormorant', serif;
+  font-style:italic;
+  font-size:clamp(16px,1.6vw,22px);
+  font-weight:300;
+  letter-spacing:.12em;
+  color:var(--silver-dim);
+  animation:up .9s ease .4s both;
+}
+
+.hero-scroll {
+  position:absolute; bottom:52px; right:60px;
+  display:flex; align-items:center; gap:14px;
+  font-family:'Raleway', sans-serif;
+  font-size:8px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--text-dim);
+  animation:up .9s ease .75s both;
+}
+
+.scroll-bar { width:44px; height:1px; background:var(--border2); position:relative; overflow:hidden; }
+.scroll-bar::after {
+  content:''; position:absolute; top:0; left:-100%;
+  width:100%; height:100%; background:var(--silver);
+  animation:slide 2.6s ease infinite;
+}
+
+@keyframes slide { 0%{left:-100%} 50%{left:0} 100%{left:100%} }
+@keyframes up { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+
+/* ══ SHARED SECTION ══ */
+.sec { padding:100px 60px; }
+.sec + .sec, #work { border-top:1px solid var(--border); }
+
+.sec-head {
+  display:flex; align-items:center; gap:16px;
+  margin-bottom:64px;
+}
+
+.sec-num {
+  font-family:'Raleway', sans-serif;
+  font-size:8px; font-weight:200;
+  letter-spacing:.28em; color:var(--silver-dim);
+}
+
+.sec-title {
+  font-family:'Cinzel', serif;
+  font-size:10px; font-weight:300;
+  letter-spacing:.34em; text-transform:uppercase;
+  color:var(--text-mid);
+}
+
+.sec-rule {
+  flex:1; height:1px;
+  background:linear-gradient(to right, var(--border2), transparent);
+  max-width:260px;
+}
+
+.sec-latin {
+  font-family:'Cormorant', serif;
+  font-style:italic; font-size:12px;
+  color:var(--gold-dim); letter-spacing:.1em;
+  margin-left:auto; flex-shrink:0;
+}
+
+/* ══ PIECE SHARED ══ */
+.piece {
+  position:relative; overflow:hidden;
+  background:var(--surface);
+}
+
+.piece img {
+  width:100%; height:100%;
+  object-fit:cover; display:block;
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94), filter .6s;
+  filter:brightness(.45) saturate(.7);
+}
+
+.over {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.12) 45%, transparent 68%);
+  opacity:0; transition:opacity .38s;
+  display:flex; flex-direction:column;
+  justify-content:flex-end; padding:20px;
+}
+
+.piece:hover .over { opacity:1; }
+.piece:hover img { transform:scale(1.02); filter:brightness(.82) saturate(.95); }
+
+.ph {
+  width:100%; height:100%;
+  background:var(--surface2);
+  display:flex; align-items:center; justify-content:center;
+  min-height:200px;
+}
+
+.ph-inner {
+  display:flex; flex-direction:column;
+  align-items:center; gap:8px; opacity:.12;
+}
+
+.ph-inner i { font-size:22px; font-style:normal; }
+
+.ph-inner span {
+  font-family:'Raleway', sans-serif;
+  font-size:7px; letter-spacing:.2em; text-transform:uppercase;
+  color:var(--text-mid);
+}
+
+.p-title {
+  font-family:'Cormorant', serif;
+  font-size:15px; color:var(--text);
+  margin-bottom:4px; letter-spacing:.04em;
+}
+
+.p-med {
+  font-family:'Raleway', sans-serif;
+  font-size:7.5px; font-weight:300;
+  letter-spacing:.2em; text-transform:uppercase;
+  color:var(--silver);
+}
+
+.p-tag {
+  position:absolute; top:10px; right:10px;
+  font-family:'Raleway', sans-serif;
+  font-size:6.5px; letter-spacing:.18em; text-transform:uppercase;
+  color:var(--text-dim); border:1px solid var(--border2);
+  padding:3px 8px; opacity:.6;
+}
+
+/* ══ WORK GALLERY ══ */
+.gallery {
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr;
+  grid-template-rows:auto;
+  gap:3px;
+}
+
+.g1 { grid-column:1; grid-row:1/3; aspect-ratio:3/4; }
+.g2 { grid-column:2; grid-row:1;   aspect-ratio:4/3; }
+.g3 { grid-column:3; grid-row:1;   aspect-ratio:4/3; }
+.g4 { grid-column:2; grid-row:2;   aspect-ratio:4/3; }
+.g5 { grid-column:3; grid-row:2;   aspect-ratio:4/3; }
+.g6 { grid-column:1; grid-row:3;   aspect-ratio:4/3; }
+.g7 { grid-column:2; grid-row:3;   aspect-ratio:4/3; }
+.g8 { grid-column:3; grid-row:3;   aspect-ratio:4/3; }
+
+/* ══ LIGHTBOX ══ */
+.lightbox {
+  display:none;
+  position:fixed; inset:0; z-index:500;
+  background:rgba(0,0,0,.96);
+  align-items:center; justify-content:center;
+  padding:40px;
+  cursor:crosshair;
+}
+
+.lightbox.open { display:flex; }
+
+.lightbox img {
+  max-width:100%; max-height:90vh;
+  object-fit:contain;
+  box-shadow:0 0 80px rgba(0,0,0,.8);
+}
+
+.lightbox-close {
+  position:absolute; top:24px; right:32px;
+  font-family:'Raleway', sans-serif;
+  font-size:9px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--text-dim); background:none; border:none;
+  transition:color .2s;
+}
+
+.lightbox-close:hover { color:var(--text); }
+
+.lightbox-caption {
+  position:absolute; bottom:32px; left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+}
+
+.lightbox-caption .p-title {
+  font-size:16px; color:var(--text);
+}
+
+.lightbox-caption .p-med {
+  margin-top:4px;
+}
+
+/* ══ METALWORK ══ */
+#metalwork { background:var(--surface); }
+
+.metal-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+}
+
+.metal-card {
+  position:relative; overflow:hidden;
+  background:var(--surface2);
+  aspect-ratio:2/3;
+}
+
+.metal-card img {
+  width:100%; height:100%;
+  object-fit:cover; display:block;
+  filter:brightness(.45) saturate(.7);
+  transition:transform .6s ease, filter .5s;
+}
+
+.metal-card:hover img { transform:scale(1.02); filter:brightness(.82) saturate(.88); }
+.metal-card .over { padding:16px; }
+
+.metal-note {
+  margin-top:28px;
+  font-family:'Cormorant', serif;
+  font-style:italic; font-size:14px;
+  color:var(--text-dim);
+  padding-left:18px; position:relative;
+}
+
+.metal-note::before {
+  content:''; position:absolute;
+  left:0; top:50%; width:10px; height:1px;
+  background:var(--silver-dim);
+}
+
+/* ══ PHOTOGRAPHY ══ */
+.photo-intro {
+  font-family:'Cormorant', serif;
+  font-style:italic; font-size:17px;
+  color:var(--text-mid); max-width:460px;
+  margin-bottom:48px; line-height:1.85;
+}
+
+/* Masonry-style photo grid */
+.photo-grid {
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-auto-rows:160px;
+  gap:2px;
+}
+
+.photo-item {
+  position:relative; overflow:hidden;
+  background:var(--surface);
+}
+
+.photo-item img {
+  width:100%; height:100%;
+  object-fit:cover; display:block;
+  filter:brightness(.45) saturate(.7);
+  transition:transform .65s ease, filter .5s;
+}
+
+.photo-item:hover img { transform:scale(1.02); filter:brightness(.82) saturate(.88); }
+.photo-item .over { padding:14px; }
+
+/* varied heights for visual interest */
+.ph-tall  { grid-row:span 2; }
+.ph-wide  { grid-column:span 2; }
+.ph-sq    { grid-row:span 1; }
+
+/* ══ COMMISSIONS ══ */
+#commissions { background:var(--surface); }
+
+.comm-intro {
+  font-family:'Cormorant', serif;
+  font-style:italic; font-size:17px;
+  color:var(--text-mid); max-width:520px;
+  margin-bottom:48px; line-height:1.85;
+}
+
+.comm-grid {
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+}
+
+.comm-card {
+  position:relative; overflow:hidden;
+  background:var(--surface2);
+  aspect-ratio:2/3;
+}
+
+.comm-card img {
+  width:100%; height:100%;
+  object-fit:cover; display:block;
+  filter:brightness(.45) saturate(.75);
+  transition:transform .6s ease, filter .5s;
+}
+
+.comm-card:hover img { transform:scale(1.02); filter:brightness(.82) saturate(.95); }
+.comm-card .over { padding:16px; }
+
+.comm-cta {
+  margin-top:36px;
+  font-family:'Raleway', sans-serif;
+  font-size:9px; letter-spacing:.24em; text-transform:uppercase;
+  color:var(--text-dim);
+  padding-left:18px; position:relative;
+}
+
+.comm-cta::before {
+  content:''; position:absolute;
+  left:0; top:50%; width:10px; height:1px;
+  background:var(--silver-dim);
+}
+
+
+
+/* ══ ABOUT ══ */
+#about { background:var(--surface); }
+
+.about-grid {
+  display:grid;
+  grid-template-columns:1fr 1.65fr;
+  gap:96px; align-items:start;
+}
+
+.about-initial {
+  font-family:'Cinzel', serif;
+  font-size:96px; font-weight:300;
+  line-height:1; letter-spacing:.03em;
+  color:var(--border2); user-select:none;
+  position:relative;
+}
+
+.about-initial::after {
+  content:'Ben Taylor';
+  position:absolute; bottom:-22px; left:2px;
+  font-family:'Raleway', sans-serif;
+  font-size:8px; letter-spacing:.3em; text-transform:uppercase;
+  color:var(--silver-dim); font-weight:300;
+}
+
+.about-tags {
+  margin-top:60px;
+  display:flex; flex-direction:column;
+}
+
+.a-tag {
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+  font-family:'Raleway', sans-serif;
+  font-size:8px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--text-dim);
+  display:flex; align-items:center; gap:10px;
+  transition:color .2s;
+}
+
+.a-tag:first-child { border-top:1px solid var(--border); }
+.a-tag:hover { color:var(--silver); }
+
+.a-dot { width:2px; height:2px; border-radius:50%; background:var(--silver-dim); flex-shrink:0; }
+
+.lux-line {
+  font-family:'Cinzel', serif;
+  font-size:10px; font-weight:300;
+  letter-spacing:.3em; text-transform:uppercase;
+  color:var(--silver-dim);
+  margin-bottom:36px;
+  display:flex; align-items:center; gap:16px;
+}
+
+.lux-line::after {
+  content:''; flex:1; height:1px;
+  background:var(--border2); max-width:100px;
+}
+
+.bio {
+  font-size:17px; line-height:2.05;
+  color:var(--text-mid);
+}
+
+.bio p { margin-bottom:20px; }
+.bio p:last-child { margin-bottom:0; }
+.bio em { font-style:italic; color:var(--text); }
+
+.about-sig {
+  margin-top:44px;
+  padding-top:28px;
+  border-top:1px solid var(--border);
+  font-family:'Raleway', sans-serif;
+  font-size:8px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--text-dim);
+}
+
+/* ══ CONTACT ══ */
+.contact-grid {
+  display:grid;
+  grid-template-columns:1fr 1.3fr;
+  gap:96px;
+}
+
+.c-heading {
+  font-family:'Cinzel', serif;
+  font-size:clamp(24px,2.8vw,40px);
+  font-weight:300; line-height:1.2;
+  letter-spacing:.07em; margin-bottom:18px;
+}
+
+.c-sub {
+  font-family:'Cormorant', serif;
+  font-style:italic; font-size:16px;
+  color:var(--text-mid); line-height:1.9;
+  margin-bottom:44px;
+}
+
+.c-info { display:flex; flex-direction:column; gap:20px; }
+
+.ci { display:flex; flex-direction:column; gap:3px; }
+
+.ci-l {
+  font-family:'Raleway', sans-serif;
+  font-size:7.5px; letter-spacing:.25em; text-transform:uppercase;
+  color:var(--text-dim);
+}
+
+.ci-v {
+  font-family:'Cormorant', serif;
+  font-size:16px; color:var(--text-mid);
+}
+
+.cf { margin-bottom:22px; }
+
+.cf label {
+  font-family:'Raleway', sans-serif;
+  font-size:7.5px; letter-spacing:.25em; text-transform:uppercase;
+  color:var(--text-dim); display:block; margin-bottom:10px;
+}
+
+.cf input, .cf textarea, .cf select {
+  width:100%; background:transparent;
+  border:none; border-bottom:1px solid var(--border2);
+  color:var(--text);
+  font-family:'Cormorant', serif; font-size:16px;
+  padding:10px 0; outline:none;
+  transition:border-color .25s; letter-spacing:.03em;
+}
+
+.cf input:focus, .cf textarea:focus, .cf select:focus { border-bottom-color:var(--silver-dim); }
+.cf textarea { resize:vertical; min-height:88px; }
+
+.cf select {
+  font-family:'Raleway', sans-serif;
+  font-size:8px; letter-spacing:.15em;
+  color:var(--text-mid); -webkit-appearance:none;
+}
+
+.c-btn {
+  margin-top:10px; background:none;
+  border:1px solid var(--silver-dim);
+  color:var(--silver);
+  font-family:'Raleway', sans-serif;
+  font-size:8.5px; font-weight:300;
+  letter-spacing:.3em; text-transform:uppercase;
+  padding:15px 44px;
+  transition:all .3s; position:relative; overflow:hidden;
+}
+
+.c-btn::before {
+  content:''; position:absolute; inset:0;
+  background:var(--silver-pale);
+  transform:translateX(-101%);
+  transition:transform .32s ease; z-index:0;
+}
+
+.c-btn:hover { color:var(--bg); border-color:var(--silver-pale); }
+.c-btn:hover::before { transform:translateX(0); }
+.c-btn span { position:relative; z-index:1; }
+
+/* ══ FOOTER ══ */
+footer {
+  padding:32px 60px;
+  border-top:1px solid var(--border);
+  display:flex; justify-content:space-between; align-items:center;
+}
+
+.f-left { display:flex; flex-direction:column; gap:3px; }
+
+.f-name {
+  font-family:'Cinzel', serif;
+  font-size:11px; letter-spacing:.22em; text-transform:uppercase;
+  color:var(--text-dim);
+}
+
+.f-lux {
+  font-family:'Cormorant', serif;
+  font-style:italic; font-size:11px;
+  color:var(--silver-dim); letter-spacing:.1em;
+}
+
+.f-right {
+  font-family:'Raleway', sans-serif;
+  font-size:7.5px; letter-spacing:.16em; text-transform:uppercase;
+  color:var(--text-dim); opacity:.3;
+}
+
+/* ══ ORNAMENT ══ */
+.ornament {
+  text-align:center; padding:36px 0;
+  color:var(--border2); font-size:16px; letter-spacing:.3em;
+  border-top:1px solid var(--border);
+}
+
+/* ══ REVEAL ══ */
+.r {
+  opacity:0; transform:translateY(18px);
+  transition:opacity .88s ease, transform .88s ease;
+}
+.r.in { opacity:1; transform:none; }
+
+/* ══ RESPONSIVE ══ */
+@media(max-width:1000px) {
+  nav, .sec { padding-left:28px; padding-right:28px; }
+  nav.scrolled { padding-left:28px; padding-right:28px; }
+  .hero { padding:0 28px 64px; }
+  .hero-vline { left:28px; }
+  .hero-scroll { right:28px; }
+
+  .gallery {
+    grid-template-columns:1fr 1fr;
+    grid-template-rows:auto;
+  }
+  .g1,.g2,.g3,.g4,.g5,.g6,.g7,.g8 { grid-column:auto; grid-row:auto; aspect-ratio:4/3; }
+
+  .metal-grid { grid-template-columns:1fr 1fr; }
+  .photo-grid { grid-template-columns:1fr 1fr; }
+  .comm-grid { grid-template-columns:1fr 1fr; }
+  .about-grid { grid-template-columns:1fr; gap:48px; }
+  .contact-grid { grid-template-columns:1fr; gap:48px; }
+  footer { flex-direction:column; gap:12px; text-align:center; }
+  .nav-links { gap:24px; }
+}
+
+@media(max-width:600px) {
+  .gallery { grid-template-columns:1fr; }
+  .nav-links { display:none; }
+  .metal-grid,.photo-grid,.comm-grid { grid-template-columns:1fr; }
+  .ph-tall,.ph-wide,.ph-sq { grid-column:auto; grid-row:auto; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a class="nav-logo" href="#">
+    <span class="nav-name">Ben Taylor</span>
+    <span class="nav-sub">Lux Post Tenebras</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="#work">Work</a></li>
+    <li><a href="#metalwork">Metalwork</a></li>
+    <li><a href="#photography">Photography</a></li>
+    <li><a href="#commissions">Commissions</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-vline"></div>
+  <div class="hero-content">
+    <p class="hero-overline">Maine · Illustrative Fine Art · Metalwork · Objects · Photography</p>
+    <h1 class="hero-name">Ben<br><span class="silver">Taylor</span></h1>
+    <p class="hero-lux" style="padding-left:.08em">Lux Post Tenebras</p>
+  </div>
+  <div class="hero-scroll"><div class="scroll-bar"></div>Scroll</div>
+</section>
+
+<!-- ══ 01 WORK ══ -->
+<section class="sec" id="work">
+  <div class="sec-head r">
+    <span class="sec-num">01</span>
+    <span class="sec-title">Selected Work</span>
+    <div class="sec-rule"></div>
+    <span class="sec-latin">Opera Selecta</span>
+  </div>
+
+  <div class="gallery r" style="transition-delay:.08s">
+
+    <!-- Hero: Eye panel -->
+    <div class="piece g1">
+      <img src="IMG_5905_jpg.jpg" alt="Ink Wash Eye on Shaped Wood Panel"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span>Eye Panel</span></div></div>
+      <div class="over">
+        <div class="p-title">Untitled — Eye</div>
+        <div class="p-med">Ink wash · Shaped wood panel</div>
+      </div>
+    </div>
+
+    <!-- Jackalope canvas -->
+    <div class="piece g2">
+      <img src="IMG_8800.jpg" alt="Jackalope"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◈</i><span>Jackalope</span></div></div>
+      <div class="over">
+        <div class="p-title">Jackalope</div>
+        <div class="p-med">Airbrush & acrylic · Canvas</div>
+      </div>
+    </div>
+
+    <!-- Foo dog deck -->
+    <div class="piece g3">
+      <img src="IMG_8801.jpg" alt="Foo Dog Deck"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◈</i><span>Foo Dog</span></div></div>
+      <div class="over">
+        <div class="p-title">Guardian</div>
+        <div class="p-med">Acrylic & gold leaf · Maple deck</div>
+      </div>
+    </div>
+
+    <!-- Hannya deck -->
+    <div class="piece g4">
+      <img src="finshed__IMG_2851.jpg" alt="Hannya"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◈</i><span>Hannya</span></div></div>
+      <div class="over">
+        <div class="p-title">Hannya</div>
+        <div class="p-med">Acrylic & ink · Maple deck</div>
+      </div>
+    </div>
+
+    <!-- Striped bass deck -->
+    <div class="piece g5">
+      <img src="IMG_8802.jpg" alt="Striped Bass"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◈</i><span>Striper</span></div></div>
+      <div class="over">
+        <div class="p-title">Striper — Clouser</div>
+        <div class="p-med">Acrylic & ink · Maple deck</div>
+      </div>
+    </div>
+
+    <!-- Blue-ringed octopus deck -->
+    <div class="piece g6">
+      <img src="finshed___MG_2721.jpg" alt="Blue-Ringed Octopus"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◈</i><span>Octopus</span></div></div>
+      <div class="over">
+        <div class="p-title">Blue-Ringed</div>
+        <div class="p-med">Acrylic & ink · Maple deck</div>
+      </div>
+    </div>
+
+    <!-- Etched decanter -->
+    <div class="piece g7">
+      <img src="IMG_6154.jpg" alt="Etched Decanter"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◈</i><span>Decanter</span></div></div>
+      <div class="over">
+        <div class="p-title">Skull & Flora</div>
+        <div class="p-med">Glass etching · Decanter</div>
+      </div>
+    </div>
+
+    <!-- Placeholder -->
+    <div class="piece g8">
+      <div class="ph"><div class="ph-inner"><i>◈</i><span>Coming Soon</span></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ 02 METALWORK ══ -->
+<section class="sec" id="metalwork">
+  <div class="sec-head r">
+    <span class="sec-num">02</span>
+    <span class="sec-title">Metalwork</span>
+    <div class="sec-rule"></div>
+    <span class="sec-latin">Ex Igne</span>
+  </div>
+
+  <div class="metal-grid r" style="transition-delay:.08s">
+
+    <div class="metal-card">
+      <img src="IMG_3701.jpg" alt="Damascus Chef Knife"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>⚔</i><span>Chef Knife</span></div></div>
+      <div class="over">
+        <div class="p-title">Damascus Chef Knife</div>
+        <div class="p-med">Hand-forged steel · Rosewood & bone handle</div>
+      </div>
+    </div>
+
+    <div class="metal-card">
+      <img src="IMG_0880.jpg" alt="Chef Knife on Whetstone"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>⚔</i><span>Chef Knife</span></div></div>
+      <div class="over">
+        <div class="p-title">Chef Knife — Detail</div>
+        <div class="p-med">Hand-forged steel</div>
+      </div>
+    </div>
+
+    <div class="metal-card">
+      <img src="IMG_7676.jpg" alt="Damascus Tanto"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>⚔</i><span>Tanto</span></div></div>
+      <div class="over">
+        <div class="p-title">Mosaic Damascus Tanto</div>
+        <div class="p-med">Hand-forged steel · Paracord over stingray</div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="metal-note r" style="transition-delay:.15s">
+    Forged in collaboration with master Damascus smiths · Work ongoing
+  </p>
+</section>
+
+<!-- ══ 03 PHOTOGRAPHY ══ -->
+<section class="sec" id="photography">
+  <div class="sec-head r">
+    <span class="sec-num">03</span>
+    <span class="sec-title">Photography</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <p class="photo-intro r" style="transition-delay:.05s">
+    Observed images. No particular hierarchy — just what was worth stopping for.
+  </p>
+
+  <div class="photo-grid r" style="transition-delay:.1s">
+
+    <!-- Cemetery through fort embrasure — portrait tall -->
+    <div class="photo-item ph-tall">
+      <img src="IMG_8166.jpg" alt="Cemetery"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span>Cemetery</span></div></div>
+      <div class="over"><div class="p-title">Santa María Magdalena</div><div class="p-med"></div></div>
+    </div>
+
+    <!-- finshed___MG_3316 — portrait -->
+    <div class="photo-item ph-tall">
+      <img src="finshed___MG_3316.jpg" alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span></span></div></div>
+      <div class="over"><div class="p-title"></div><div class="p-med"></div></div>
+    </div>
+
+    <!-- finshed__IMG_2479 — portrait -->
+    <div class="photo-item ph-tall">
+      <img src="finshed__IMG_2479.jpg" alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span></span></div></div>
+      <div class="over"><div class="p-title"></div><div class="p-med"></div></div>
+    </div>
+
+    <!-- IMG_3537 — very tall portrait, span 2 rows -->
+    <div class="photo-item ph-tall">
+      <img src="IMG_3537.jpg" alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span></span></div></div>
+      <div class="over"><div class="p-title"></div><div class="p-med"></div></div>
+    </div>
+
+    <!-- 05232014122323 — wide landscape, span 2 cols -->
+    <div class="photo-item ph-wide">
+      <img src="05232014122323.jpg" alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span></span></div></div>
+      <div class="over"><div class="p-title"></div><div class="p-med"></div></div>
+    </div>
+
+    <!-- finshed__IMG_3587 — landscape -->
+    <div class="photo-item ph-sq">
+      <img src="finshed__IMG_3587.jpg" alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span></span></div></div>
+      <div class="over"><div class="p-title"></div><div class="p-med"></div></div>
+    </div>
+
+    <!-- finshed__IMG_4254 — wide landscape, span 2 cols -->
+    <div class="photo-item ph-wide">
+      <img src="finshed__IMG_4254.jpg" alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span></span></div></div>
+      <div class="over"><div class="p-title"></div><div class="p-med"></div></div>
+    </div>
+
+    <!-- finshed__laundry_mat_open_edited — panoramic, span 2 cols -->
+    <div class="photo-item ph-wide">
+      <img src="finshed__laundry_mat_open_edited.jpg" alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span></span></div></div>
+      <div class="over"><div class="p-title"></div><div class="p-med"></div></div>
+    </div>
+
+    <!-- IMG_7573 — portrait, Guadalupe neon -->
+    <div class="photo-item ph-tall">
+      <img src="IMG_7573.jpg" alt="Guadalupe Neon"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span>Guadalupe</span></div></div>
+      <div class="over"><div class="p-title">Guadalupe</div><div class="p-med"></div></div>
+    </div>
+
+    <!-- IMG_6526 — wide landscape -->
+    <div class="photo-item ph-sq">
+      <img src="IMG_6526.jpg" alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span></span></div></div>
+      <div class="over"><div class="p-title"></div><div class="p-med"></div></div>
+    </div>
+
+    <!-- finshed__IMG_2469 — landscape -->
+    <div class="photo-item ph-sq">
+      <img src="finshed__IMG_2469.jpg" alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span></span></div></div>
+      <div class="over"><div class="p-title"></div><div class="p-med"></div></div>
+    </div>
+
+    <!-- IMG_6223_jpg — portrait -->
+    <div class="photo-item ph-tall">
+      <img src="IMG_6223_jpg.jpg" alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span></span></div></div>
+      <div class="over"><div class="p-title"></div><div class="p-med"></div></div>
+    </div>
+
+    <!-- IMG_8194 — portrait -->
+    <div class="photo-item ph-tall">
+      <img src="IMG_8194.jpg" alt=""
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span></span></div></div>
+      <div class="over"><div class="p-title"></div><div class="p-med"></div></div>
+    </div>
+
+    <!-- IMG_6349 — very tall portrait -->
+    <div class="photo-item ph-tall">
+      <img src="IMG_6349.jpg" alt="Child Running at Dusk"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◉</i><span>Chapel Dusk</span></div></div>
+      <div class="over"><div class="p-title">Evening, El Morro</div><div class="p-med"></div></div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ 04 COMMISSIONS ══ -->
+<section class="sec" id="commissions">
+  <div class="sec-head r">
+    <span class="sec-num">04</span>
+    <span class="sec-title">Commissions</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <p class="comm-intro r" style="transition-delay:.05s">
+    Custom work across surfaces and media. Available for original commissions.
+  </p>
+
+  <div class="comm-grid r" style="transition-delay:.1s">
+
+    <div class="comm-card">
+      <img src="IMG_8798.jpg" alt="Star Wars Deck"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◈</i><span>Star Wars</span></div></div>
+      <div class="over">
+        <div class="p-title">Battle of Yavin</div>
+        <div class="p-med">Acrylic, airbrush, gold leaf, resin · Maple deck with hardware</div>
+      </div>
+    </div>
+
+    <div class="comm-card">
+      <img src="IMG_8799.jpg" alt="Pennywise"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◈</i><span>Pennywise</span></div></div>
+      <div class="over">
+        <div class="p-title">Pennywise</div>
+        <div class="p-med">Acrylic · Wood block</div>
+      </div>
+    </div>
+
+    <div class="comm-card">
+      <img src="finshed___MG_2722.jpg" alt="Skull Roses Deck"
+        onerror="this.style.display='none';this.nextElementSibling.style.display='flex'">
+      <div class="ph" style="display:none"><div class="ph-inner"><i>◈</i><span>Skull Deck</span></div></div>
+      <div class="over">
+        <div class="p-title">Skull & Roses</div>
+        <div class="p-med">Acrylic · Maple deck</div>
+      </div>
+    </div>
+
+  </div>
+
+  <p class="comm-cta r" style="transition-delay:.18s">
+    Inquiries welcome via the contact form below
+  </p>
+</section>
+
+<!-- ══ 05 ABOUT ══ -->
+<section class="sec" id="about">
+  <div class="sec-head r">
+    <span class="sec-num">05</span>
+    <span class="sec-title">About</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <div class="about-grid">
+    <div class="about-left r">
+      <div class="about-initial">BT</div>
+      <div class="about-tags">
+        <div class="a-tag"><span class="a-dot"></span>Fine Art</div>
+        <div class="a-tag"><span class="a-dot"></span>Painted Objects</div>
+        <div class="a-tag"><span class="a-dot"></span>Metalwork</div>
+        <div class="a-tag"><span class="a-dot"></span>Drawing & Illustration</div>
+        <div class="a-tag"><span class="a-dot"></span>Photography</div>
+      </div>
+    </div>
+
+    <div class="about-right r" style="transition-delay:.14s">
+      <div class="lux-line">Lux Post Tenebras</div>
+      <div class="bio">
+        <p>Based in Maine, Ben works across surfaces and media — drawn to the symbolic and the totemic, imagery that carries weight without explanation. There is as much intention in what is removed as what is added.</p>
+        <p><em>Lux Post Tenebras — light after darkness — runs through the work as a quiet conviction: that the symbolic, the mortal, and the occasionally unsettling are not ends in themselves, but ways of moving through.</em></p>
+        <p>Generally just having a good time.</p>
+      </div>
+      <div class="about-sig">Ben Taylor · Maine · Working name BLT · Signed BLT</div>
+    </div>
+  </div>
+</section>
+
+<!-- ══ 06 CONTACT ══ -->
+<section class="sec" id="contact">
+  <div class="sec-head r">
+    <span class="sec-num">06</span>
+    <span class="sec-title">Contact</span>
+    <div class="sec-rule"></div>
+  </div>
+
+  <div class="contact-grid">
+    <div class="contact-left r">
+      <h2 class="c-heading">Get in<br>Touch</h2>
+      <p class="c-sub">Inquiries about available work,<br>commissions, or collaborations.</p>
+      <div class="c-info">
+        <div class="ci">
+          <span class="ci-l">Email</span>
+          <span class="ci-v">lxpt.blt@[domain]</span>
+        </div>
+        <div class="ci">
+          <span class="ci-l">Location</span>
+          <span class="ci-v">Maine, USA</span>
+        </div>
+        <div class="ci">
+          <span class="ci-l">Studio</span>
+          <span class="ci-v">bentaylor.studio</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-right r" style="transition-delay:.12s">
+      <div class="cf">
+        <label>Name</label>
+        <input type="text" placeholder="Your name">
+      </div>
+      <div class="cf">
+        <label>Email</label>
+        <input type="email" placeholder="your@email.com">
+      </div>
+      <div class="cf">
+        <label>Inquiry</label>
+        <select>
+          <option value="">Select one</option>
+          <option>Available Work</option>
+          <option>Commission</option>
+          <option>Collaboration</option>
+          <option>General</option>
+        </select>
+      </div>
+      <div class="cf">
+        <label>Message</label>
+        <textarea placeholder="Tell me about your inquiry…"></textarea>
+      </div>
+      <button class="c-btn"><span>Send Message</span></button>
+    </div>
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">Close ✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption">
+    <div class="p-title" id="lightbox-title"></div>
+    <div class="p-med" id="lightbox-med"></div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="f-left">
+    <span class="f-name">Ben Taylor</span>
+    <span class="f-lux">Lux Post Tenebras</span>
+  </div>
+  <div class="f-right">© 2025 Ben Taylor · All rights reserved · bentaylor.studio</div>
+</footer>
+
+<script>
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 50);
+}, { passive:true });
+
+// Reveal on scroll
+const els = document.querySelectorAll('.r');
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => {
+    if(e.isIntersecting) { e.target.classList.add('in'); obs.unobserve(e.target); }
+  });
+}, { threshold:0.06 });
+
+els.forEach(el => {
+  if(el.getBoundingClientRect().top < window.innerHeight * 1.05) {
+    el.classList.add('in');
+  } else {
+    obs.observe(el);
+  }
+});
+
+// Lightbox
+function openLightbox(src, title, med) {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-title').textContent = title || '';
+  document.getElementById('lightbox-med').textContent = med || '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on background click
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if(e.target === this) closeLightbox();
+});
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') closeLightbox();
+});
+
+// Wire up all clickable pieces
+document.querySelectorAll('.piece, .metal-card, .comm-card, .photo-item').forEach(el => {
+  const img = el.querySelector('img');
+  if(!img) return;
+  const title = el.querySelector('.p-title')?.textContent || '';
+  const med = el.querySelector('.p-med')?.textContent || '';
+  el.style.cursor = 'zoom-in';
+  el.addEventListener('click', () => {
+    if(img.src) openLightbox(img.src, title, med);
+  });
+});
+</script>
+</body>
+</html>
