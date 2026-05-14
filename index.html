@@ -270,7 +270,7 @@ nav.scrolled {
 .gallery {
   display:grid;
   grid-template-columns:repeat(12,1fr);
-  grid-auto-rows:58px;
+  grid-auto-rows:80px;
   gap:2px;
 }
 
@@ -282,6 +282,48 @@ nav.scrolled {
 .g6  { grid-column:1/5;   grid-row:9/14; }
 .g7  { grid-column:5/9;   grid-row:9/14; }
 .g8  { grid-column:9/13;  grid-row:9/14; }
+
+/* ══ LIGHTBOX ══ */
+.lightbox {
+  display:none;
+  position:fixed; inset:0; z-index:500;
+  background:rgba(0,0,0,.96);
+  align-items:center; justify-content:center;
+  padding:40px;
+  cursor:crosshair;
+}
+
+.lightbox.open { display:flex; }
+
+.lightbox img {
+  max-width:100%; max-height:90vh;
+  object-fit:contain;
+  box-shadow:0 0 80px rgba(0,0,0,.8);
+}
+
+.lightbox-close {
+  position:absolute; top:24px; right:32px;
+  font-family:'Raleway', sans-serif;
+  font-size:9px; letter-spacing:.28em; text-transform:uppercase;
+  color:var(--text-dim); background:none; border:none;
+  transition:color .2s;
+}
+
+.lightbox-close:hover { color:var(--text); }
+
+.lightbox-caption {
+  position:absolute; bottom:32px; left:50%;
+  transform:translateX(-50%);
+  text-align:center;
+}
+
+.lightbox-caption .p-title {
+  font-size:16px; color:var(--text);
+}
+
+.lightbox-caption .p-med {
+  margin-top:4px;
+}
 
 /* ══ METALWORK ══ */
 #metalwork { background:var(--surface); }
@@ -1082,6 +1124,16 @@ footer {
   </div>
 </section>
 
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" onclick="closeLightbox()">Close ✕</button>
+  <img id="lightbox-img" src="" alt="">
+  <div class="lightbox-caption">
+    <div class="p-title" id="lightbox-title"></div>
+    <div class="p-med" id="lightbox-med"></div>
+  </div>
+</div>
+
 <!-- FOOTER -->
 <footer>
   <div class="f-left">
@@ -1112,6 +1164,43 @@ els.forEach(el => {
   } else {
     obs.observe(el);
   }
+});
+
+// Lightbox
+function openLightbox(src, title, med) {
+  const lb = document.getElementById('lightbox');
+  document.getElementById('lightbox-img').src = src;
+  document.getElementById('lightbox-title').textContent = title || '';
+  document.getElementById('lightbox-med').textContent = med || '';
+  lb.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeLightbox() {
+  document.getElementById('lightbox').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on background click
+document.getElementById('lightbox').addEventListener('click', function(e) {
+  if(e.target === this) closeLightbox();
+});
+
+// Close on Escape
+document.addEventListener('keydown', e => {
+  if(e.key === 'Escape') closeLightbox();
+});
+
+// Wire up all clickable pieces
+document.querySelectorAll('.piece, .metal-card, .comm-card, .photo-item').forEach(el => {
+  const img = el.querySelector('img');
+  if(!img) return;
+  const title = el.querySelector('.p-title')?.textContent || '';
+  const med = el.querySelector('.p-med')?.textContent || '';
+  el.style.cursor = 'zoom-in';
+  el.addEventListener('click', () => {
+    if(img.src) openLightbox(img.src, title, med);
+  });
 });
 </script>
 </body>
