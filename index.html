@@ -139,12 +139,14 @@ nav.scrolled {
 }
 
 .hero-lux {
-  margin-top:10px;
-  font-family:'Raleway', sans-serif;
-  font-size:8px; font-weight:200;
-  letter-spacing:.32em; text-transform:uppercase;
+  margin-top:18px;
+  font-family:'Cormorant', serif;
+  font-style:italic;
+  font-size:clamp(16px,1.6vw,22px);
+  font-weight:300;
+  letter-spacing:.12em;
   color:var(--silver-dim);
-  animation:up .9s ease .52s both;
+  animation:up .9s ease .4s both;
 }
 
 .hero-scroll {
@@ -210,9 +212,20 @@ nav.scrolled {
 .piece img {
   width:100%; height:100%;
   object-fit:cover; display:block;
-  transition:transform .7s cubic-bezier(.25,.46,.45,.94), filter .5s;
-  filter:brightness(.82) saturate(.85);
+  transition:transform .7s cubic-bezier(.25,.46,.45,.94), filter .6s;
+  filter:brightness(.45) saturate(.7);
 }
+
+.over {
+  position:absolute; inset:0;
+  background:linear-gradient(to top, rgba(0,0,0,.88) 0%, rgba(0,0,0,.12) 45%, transparent 68%);
+  opacity:0; transition:opacity .38s;
+  display:flex; flex-direction:column;
+  justify-content:flex-end; padding:20px;
+}
+
+.piece:hover .over { opacity:1; }
+.piece:hover img { transform:scale(1.02); filter:brightness(.82) saturate(.95); }
 
 .ph {
   width:100%; height:100%;
@@ -233,17 +246,6 @@ nav.scrolled {
   font-size:7px; letter-spacing:.2em; text-transform:uppercase;
   color:var(--text-mid);
 }
-
-.over {
-  position:absolute; inset:0;
-  background:linear-gradient(to top, rgba(0,0,0,.92) 0%, rgba(0,0,0,.18) 45%, transparent 68%);
-  opacity:0; transition:opacity .38s;
-  display:flex; flex-direction:column;
-  justify-content:flex-end; padding:20px;
-}
-
-.piece:hover .over { opacity:1; }
-.piece:hover img { transform:scale(1.035); filter:brightness(.96) saturate(1); }
 
 .p-title {
   font-family:'Cormorant', serif;
@@ -269,19 +271,19 @@ nav.scrolled {
 /* ══ WORK GALLERY ══ */
 .gallery {
   display:grid;
-  grid-template-columns:repeat(12,1fr);
-  grid-auto-rows:80px;
-  gap:2px;
+  grid-template-columns:1.4fr 1fr 1fr;
+  grid-template-rows:auto;
+  gap:3px;
 }
 
-.g1  { grid-column:1/6;   grid-row:1/9;  }
-.g2  { grid-column:6/9;   grid-row:1/5;  }
-.g3  { grid-column:9/13;  grid-row:1/6;  }
-.g4  { grid-column:6/10;  grid-row:5/9;  }
-.g5  { grid-column:10/13; grid-row:6/9;  }
-.g6  { grid-column:1/5;   grid-row:9/14; }
-.g7  { grid-column:5/9;   grid-row:9/14; }
-.g8  { grid-column:9/13;  grid-row:9/14; }
+.g1 { grid-column:1; grid-row:1/3; aspect-ratio:3/4; }
+.g2 { grid-column:2; grid-row:1;   aspect-ratio:4/3; }
+.g3 { grid-column:3; grid-row:1;   aspect-ratio:4/3; }
+.g4 { grid-column:2; grid-row:2;   aspect-ratio:4/3; }
+.g5 { grid-column:3; grid-row:2;   aspect-ratio:4/3; }
+.g6 { grid-column:1; grid-row:3;   aspect-ratio:4/3; }
+.g7 { grid-column:2; grid-row:3;   aspect-ratio:4/3; }
+.g8 { grid-column:3; grid-row:3;   aspect-ratio:4/3; }
 
 /* ══ LIGHTBOX ══ */
 .lightbox {
@@ -337,17 +339,17 @@ nav.scrolled {
 .metal-card {
   position:relative; overflow:hidden;
   background:var(--surface2);
-  aspect-ratio:4/3;
+  aspect-ratio:2/3;
 }
 
 .metal-card img {
   width:100%; height:100%;
   object-fit:cover; display:block;
-  filter:brightness(.78) saturate(.7);
-  transition:transform .6s ease, filter .4s;
+  filter:brightness(.45) saturate(.7);
+  transition:transform .6s ease, filter .5s;
 }
 
-.metal-card:hover img { transform:scale(1.03); filter:brightness(.9) saturate(.88); }
+.metal-card:hover img { transform:scale(1.02); filter:brightness(.82) saturate(.88); }
 .metal-card .over { padding:16px; }
 
 .metal-note {
@@ -388,11 +390,11 @@ nav.scrolled {
 .photo-item img {
   width:100%; height:100%;
   object-fit:cover; display:block;
-  filter:brightness(.75) saturate(.7);
-  transition:transform .65s ease, filter .45s;
+  filter:brightness(.45) saturate(.7);
+  transition:transform .65s ease, filter .5s;
 }
 
-.photo-item:hover img { transform:scale(1.04); filter:brightness(.92) saturate(.88); }
+.photo-item:hover img { transform:scale(1.02); filter:brightness(.82) saturate(.88); }
 .photo-item .over { padding:14px; }
 
 /* varied heights for visual interest */
@@ -425,11 +427,11 @@ nav.scrolled {
 .comm-card img {
   width:100%; height:100%;
   object-fit:cover; display:block;
-  filter:brightness(.78) saturate(.8);
-  transition:transform .6s ease, filter .4s;
+  filter:brightness(.45) saturate(.75);
+  transition:transform .6s ease, filter .5s;
 }
 
-.comm-card:hover img { transform:scale(1.03); filter:brightness(.92) saturate(.95); }
+.comm-card:hover img { transform:scale(1.02); filter:brightness(.82) saturate(.95); }
 .comm-card .over { padding:16px; }
 
 .comm-cta {
@@ -660,9 +662,9 @@ footer {
 
   .gallery {
     grid-template-columns:1fr 1fr;
-    grid-auto-rows:180px;
+    grid-template-rows:auto;
   }
-  .g1,.g2,.g3,.g4,.g5,.g6,.g7,.g8 { grid-column:auto; grid-row:auto; }
+  .g1,.g2,.g3,.g4,.g5,.g6,.g7,.g8 { grid-column:auto; grid-row:auto; aspect-ratio:4/3; }
 
   .metal-grid { grid-template-columns:1fr 1fr; }
   .photo-grid { grid-template-columns:1fr 1fr; }
@@ -703,9 +705,8 @@ footer {
 <section class="hero">
   <div class="hero-vline"></div>
   <div class="hero-content">
-    <p class="hero-overline">Maine · Fine Art · Metalwork · Objects · Photography</p>
+    <p class="hero-overline">Maine · Illustrative Fine Art · Metalwork · Objects · Photography</p>
     <h1 class="hero-name">Ben<br><span class="silver">Taylor</span></h1>
-    <p class="hero-tagline">The surface is never just a background.</p>
     <p class="hero-lux">Lux Post Tenebras</p>
   </div>
   <div class="hero-scroll"><div class="scroll-bar"></div>Scroll</div>
@@ -1058,9 +1059,8 @@ footer {
     <div class="about-right r" style="transition-delay:.14s">
       <div class="lux-line">Lux Post Tenebras</div>
       <div class="bio">
-        <p>Based in Maine, Ben works across surfaces and media — drawn to the symbolic and the totemic, imagery that carries weight without explanation. There is as much intention in what is removed as what is added. Things tend to look back.</p>
+        <p>Based in Maine, Ben works across surfaces and media — drawn to the symbolic and the totemic, imagery that carries weight without explanation. There is as much intention in what is removed as what is added.</p>
         <p><em>Lux Post Tenebras — light after darkness — runs through the work as a quiet conviction: that the symbolic, the mortal, and the occasionally unsettling are not ends in themselves, but ways of moving through.</em></p>
-        <p>Diligent, experimental, hard to pin down.</p>
         <p>Generally just having a good time.</p>
       </div>
       <div class="about-sig">Ben Taylor · Maine · Working name BLT · Signed BLT</div>
